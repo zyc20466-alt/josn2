@@ -2,7 +2,8 @@
   "metadata": {
     "version": "1.4",
     "created_by": "user",
-    "description": "美式新闻替换/风格示例库（AI 可读）。用于在不改变事实或语气强度的前提下，把原文词句替换为更符合美式新闻表达的词句。"
+    "description": "美式新闻替换/风格示例库（AI 可读）。用于在不改变事实或语气强度的前提下，把原文词句替换为更符合美式新闻表达的词句。",
+    "template_note": "说明：本文件仅为格式模板。文中所有示例仅用于演示结构与格式，严禁在生成的新闻稿或其他公开内容中直接引用示例文本。"
   },
   "rules": [
     {
@@ -212,7 +213,7 @@
   "allowed_contexts": [
     "any"
   ],
-  "forbidden_contexts": [],
+  "forbidden_contexts": [],  
   "priority": 85,
   "examples": {
     "before": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
@@ -240,4 +241,3 @@
     "naming_convention": "规则ID 使用 R + 三位数字，例如 R004、R005"
   }
 }
-
