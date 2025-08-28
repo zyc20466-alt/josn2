@@ -3,7 +3,19 @@
     "version": "1.4",
     "created_by": "user",
     "description": "美式新闻替换/风格示例库（AI 可读）。用于在不改变事实或语气强度的前提下，把原文词句替换为更符合美式新闻表达的词句。",
-    "template_note": "说明：本文件仅为格式模板。文中所有示例仅用于演示结构与格式，严禁在生成的新闻稿或其他公开内容中直接引用示例文本。"
+    "template_note": "说明：本文件仅为格式模板。文中所有示例仅用于演示结构与格式，严禁在生成的新闻稿或其他公开内容中直接引用示例文本。",
+    "enforcement_policy": {
+      "purpose": "强制性限制：禁止在任何自动生成的对外文本中直接引用或逐字重现本规则文件中的示例文本（包括 rules[].examples.before 与 rules[].examples.after）。",
+      "prohibit_direct_quote": true,
+      "require_paraphrase_if_use": true,
+      "paraphrase_minimum_change_ratio": 0.4,
+      "exact_substring_block_length": 10,
+      "similarity_block_threshold": 0.85,
+      "action_on_violation": "reject_or_flag_for_human_review",
+      "audit_logging_required": true,
+      "human_approval_required_if_flagged": true,
+      "note_to_engineers": "部署时请把本条作为机读约束：在模型返回之前运行示例检测器；若检测器判定为违规（包含示例的长片段或高相似度），必须拒绝输出或替换为经人工审批/重写的内容。"
+    }
   },
   "rules": [
     {
@@ -16,7 +28,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 100,
       "examples": {
@@ -35,7 +49,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 90,
       "examples": {
@@ -54,7 +70,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 80,
       "examples": {
@@ -73,7 +91,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 80,
       "examples": {
@@ -92,7 +112,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 80,
       "examples": {
@@ -111,7 +133,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 85,
       "examples": {
@@ -130,7 +154,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 85,
       "examples": {
@@ -149,7 +175,9 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": ["any"],
+      "allowed_contexts": [
+        "any"
+      ],
       "forbidden_contexts": [],
       "priority": 85,
       "examples": {
@@ -161,69 +189,73 @@
     {
       "id": "R009",
       "match_type": "exact",
-  "pattern": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
-  "replacement": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑",
-  "rationale": "在原句基础上加入“迫切”，强调寻求庇护的紧迫性，使新闻叙述更具时效感与人物动机明确性。该修改不改变事实或确定性，仅增强语气与可读性。",
-  "change_type": "phrase_substitution",
-  "preserve_factuality": true,
-  "preserve_certainty": true,
-  "count_as_deletion": false,
-  "allowed_contexts": [
-    "any"
-  ],
-  "forbidden_contexts": [],
-  "priority": 85,
-  "examples": {
-    "before": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
-    "after": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑"
-  },
-  "notes": "用于突出当事人对庇护的紧迫性；仅在完整短语匹配时应用。"
-}，
-{
-  "id": "R010",
-  "match_type": "exact",
-  "pattern": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
-  "replacement": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联",
-  "rationale": "修复断句与指代不明：通过加入代词“他”并重组从句，明确被指控的主体及其被指控的行为和地点，提升句子连贯性与可读性，同时不改变事实或确定性。",
-  "change_type": "clarity_rewrite",
-  "preserve_factuality": true,
-  "preserve_certainty": true,
-  "count_as_deletion": false,
-  "allowed_contexts": [
-    "any"
-  ],
-  "forbidden_contexts": [],
-  "priority": 85,
-  "examples": {
-    "before": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
-    "after": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联"
-  },
-  "notes": "仅在完整短语匹配时应用；保持事实不变，着重改善句子连贯与指代清晰。"
-}，
-{
-  "id": "R011",
-  "match_type": "exact",
-  "pattern": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
-  "replacement": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力",
-  "rationale": "通过加入主体“群众”明确担忧的来源，并将第二分句聚焦为“政府在该地区的战略影响力”，使信息更具体、指向更清晰，有利于提升可读性与新闻报道的明确性。注意：修改后的第二分句缺少显式的‘关切/担忧’词语，可能造成并列平衡性略弱（仅为提醒，内容不做改动）。",
-  "change_type": "clarity_rewrite",
-  "preserve_factuality": true,
-  "preserve_certainty": true,
-  "count_as_deletion": false,
-  "allowed_contexts": [
-    "any"
-  ],
-  "forbidden_contexts": [],  
-  "priority": 85,
-  "examples": {
-    "before": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
-    "after": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力"
-  },
-  "notes": "仅在完整短语匹配时应用；保留原意并增强指向性；若需更严格的并列平衡，可在第二分句补回‘关切/担忧’等词，但不自行改动你的中文。"
-}，
+      "pattern": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
+      "replacement": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑",
+      "rationale": "在原句基础上加入“迫切”，强调寻求庇护的紧迫性，使新闻叙述更具时效感与人物动机明确性。该修改不改变事实或确定性，仅增强语气与可读性。",
+      "change_type": "phrase_substitution",
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "count_as_deletion": false,
+      "allowed_contexts": [
+        "any"
+      ],
+      "forbidden_contexts": [],
+      "priority": 85,
+      "examples": {
+        "before": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
+        "after": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑"
+      },
+      "notes": "用于突出当事人对庇护的紧迫性；仅在完整短语匹配时应用。"
+    },
+    {
+      "id": "R010",
+      "match_type": "exact",
+      "pattern": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
+      "replacement": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联",
+      "rationale": "修复断句与指代不明：通过加入代词“他”并重组从句，明确被指控的主体及其被指控的行为和地点，提升句子连贯性与可读性，同时不改变事实或确定性。",
+      "change_type": "clarity_rewrite",
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "count_as_deletion": false,
+      "allowed_contexts": [
+        "any"
+      ],
+      "forbidden_contexts": [],
+      "priority": 85,
+      "examples": {
+        "before": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
+        "after": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联"
+      },
+      "notes": "仅在完整短语匹配时应用；保持事实不变，着重改善句子连贯与指代清晰。"
+    },
+    {
+      "id": "R011",
+      "match_type": "exact",
+      "pattern": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
+      "replacement": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力",
+      "rationale": "通过加入主体“群众”明确担忧的来源，并将第二分句聚焦为“政府在该地区的战略影响力”，使信息更具体、指向更清晰，有利于提升可读性与新闻报道的明确性。注意：修改后的第二分句缺少显式的‘关切/担忧’词语，可能造成并列平衡性略弱（仅为提醒，内容不做改动）。",
+      "change_type": "clarity_rewrite",
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "count_as_deletion": false,
+      "allowed_contexts": [
+        "any"
+      ],
+      "forbidden_contexts": [],
+      "priority": 85,
+      "examples": {
+        "before": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
+        "after": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力"
+      },
+      "notes": "仅在完整短语匹配时应用；保留原意并增强指向性；若需更严格的并列平衡，可在第二分句补回‘关切/担忧’等词，但不自行改动你的中文。"
+    }
   ],
   "usage_guidelines": {
-    "apply_order": ["exact", "regex", "contains"],
+    "apply_order": [
+      "exact",
+      "regex",
+      "contains"
+    ],
     "conflict_resolution": "当多条规则匹配同一区域时，优先使用 priority 值更高的规则；若 priority 相同，优先 exact > regex > contains。",
     "validation_checks_before_apply": [
       "替换后不得改变事实性内容（命名实体、数字、时序、结论性陈述）",
@@ -233,11 +265,24 @@
     ],
     "deletion_counting_rule": "仅当替换伴随文字删减时，删减字符数计入 1%—5% 删减限额；纯替换（等长或等信息量）不计入删减比例。",
     "batch_apply_rule": "在同一段落内可同时应用多条替换，但应用前必须先模拟并检查最终句子是否仍满足“保留原意与事实确定性”规则。",
-    "logging_requirement": "模型应在内部维护一份变更记录：原句 -> 规则ID -> 替换后句。该记录仅用于合规校验与删减计数，最终输出不得包含该记录."
+    "logging_requirement": "模型应在内部维护一份变更记录：原句 -> 规则ID -> 替换后句。该记录仅用于合规校验与删减计数，最终输出不得包含该记录。",
+    "example_usage_restrictions": {
+      "statement": "强制性：示例文本（rules[].examples.before / after）不得被直接用作对外生成输出或在新闻稿中原样引用。",
+      "checks_required": [
+        "禁止包含任何示例的连续原文片段长度 >= exact_substring_block_length",
+        "禁止与任一示例达到 similarity_block_threshold（基于编辑距离/相似度测量）",
+        "若必须以示例为基础输出，必须按 paraphrase_minimum_change_ratio 要求进行重写并通过人工审批"
+      ],
+      "recommended_action_on_detection": "阻止输出并标记为需人工审核；记录匹配的示例 ID 与匹配分数"
+    }
   },
   "extension_instructions": {
     "how_to_add": "新增条目时必须提供：id、match_type、pattern、replacement、rationale、change_type、preserve_factuality、preserve_certainty、priority、examples。",
-    "recommended_match_types": ["exact", "contains", "regex"],
+    "recommended_match_types": [
+      "exact",
+      "contains",
+      "regex"
+    ],
     "naming_convention": "规则ID 使用 R + 三位数字，例如 R004、R005"
   }
 }
