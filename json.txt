@@ -1,4 +1,3 @@
-```json
 {
   "metadata": {
     "version": "1.1",
@@ -16,9 +15,7 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
+      "allowed_contexts": ["any"],
       "forbidden_contexts": [],
       "priority": 100,
       "examples": {
@@ -37,9 +34,7 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
+      "allowed_contexts": ["any"],
       "forbidden_contexts": [],
       "priority": 90,
       "examples": {
@@ -58,9 +53,7 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
+      "allowed_contexts": ["any"],
       "forbidden_contexts": [],
       "priority": 80,
       "examples": {
@@ -79,9 +72,7 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
+      "allowed_contexts": ["any"],
       "forbidden_contexts": [],
       "priority": 80,
       "examples": {
@@ -100,9 +91,7 @@
       "preserve_factuality": true,
       "preserve_certainty": true,
       "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
+      "allowed_contexts": ["any"],
       "forbidden_contexts": [],
       "priority": 80,
       "examples": {
@@ -113,11 +102,7 @@
     }
   ],
   "usage_guidelines": {
-    "apply_order": [
-      "exact",
-      "regex",
-      "contains"
-    ],
+    "apply_order": ["exact", "regex", "contains"],
     "conflict_resolution": "当多条规则匹配同一区域时，优先使用 priority 值更高的规则；若 priority 相同，优先 exact > regex > contains。",
     "validation_checks_before_apply": [
       "替换后不得改变事实性内容（命名实体、数字、时序、结论性陈述）",
@@ -131,12 +116,7 @@
   },
   "extension_instructions": {
     "how_to_add": "新增条目时必须提供：id、match_type、pattern、replacement、rationale、change_type、preserve_factuality、preserve_certainty、priority、examples。",
-    "recommended_match_types": [
-      "exact",
-      "contains",
-      "regex"
-    ],
+    "recommended_match_types": ["exact", "contains", "regex"],
     "naming_convention": "规则ID 使用 R + 三位数字，例如 R004、R005"
   }
 }
-```
