@@ -159,18 +159,67 @@
     },
     {
       "id": "R009",
-      "match_type": "marker",
-      "pattern": "[123]",
-      "replacement": "[123]",
-      "rationale": "编辑占位符：选中 [123]（包括方括号）后直接粘贴要追加的内容。此条为占位符，不参与替换逻辑。",
-      "change_type": "marker",
-      "priority": 0,
-      "examples": {
-        "before": "[123]",
-        "after": "[123]"
-      },
-      "notes": "只作为编辑占位符使用；请在编辑完成后删除或替换该条。"
-    }
+      "match_type": "exact",
+  "pattern": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
+  "replacement": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑",
+  "rationale": "在原句基础上加入“迫切”，强调寻求庇护的紧迫性，使新闻叙述更具时效感与人物动机明确性。该修改不改变事实或确定性，仅增强语气与可读性。",
+  "change_type": "phrase_substitution",
+  "preserve_factuality": true,
+  "preserve_certainty": true,
+  "count_as_deletion": false,
+  "allowed_contexts": [
+    "any"
+  ],
+  "forbidden_contexts": [],
+  "priority": 85,
+  "examples": {
+    "before": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
+    "after": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑"
+  },
+  "notes": "用于突出当事人对庇护的紧迫性；仅在完整短语匹配时应用。"
+}，
+{
+  "id": "R010",
+  "match_type": "exact",
+  "pattern": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
+  "replacement": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联",
+  "rationale": "修复断句与指代不明：通过加入代词“他”并重组从句，明确被指控的主体及其被指控的行为和地点，提升句子连贯性与可读性，同时不改变事实或确定性。",
+  "change_type": "clarity_rewrite",
+  "preserve_factuality": true,
+  "preserve_certainty": true,
+  "count_as_deletion": false,
+  "allowed_contexts": [
+    "any"
+  ],
+  "forbidden_contexts": [],
+  "priority": 85,
+  "examples": {
+    "before": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
+    "after": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联"
+  },
+  "notes": "仅在完整短语匹配时应用；保持事实不变，着重改善句子连贯与指代清晰。"
+}，
+{
+  "id": "R011",
+  "match_type": "exact",
+  "pattern": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
+  "replacement": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力",
+  "rationale": "通过加入主体“群众”明确担忧的来源，并将第二分句聚焦为“政府在该地区的战略影响力”，使信息更具体、指向更清晰，有利于提升可读性与新闻报道的明确性。注意：修改后的第二分句缺少显式的‘关切/担忧’词语，可能造成并列平衡性略弱（仅为提醒，内容不做改动）。",
+  "change_type": "clarity_rewrite",
+  "preserve_factuality": true,
+  "preserve_certainty": true,
+  "count_as_deletion": false,
+  "allowed_contexts": [
+    "any"
+  ],
+  "forbidden_contexts": [],
+  "priority": 85,
+  "examples": {
+    "before": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
+    "after": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力"
+  },
+  "notes": "仅在完整短语匹配时应用；保留原意并增强指向性；若需更严格的并列平衡，可在第二分句补回‘关切/担忧’等词，但不自行改动你的中文。"
+}，
   ],
   "usage_guidelines": {
     "apply_order": ["exact", "regex", "contains"],
@@ -191,3 +240,4 @@
     "naming_convention": "规则ID 使用 R + 三位数字，例如 R004、R005"
   }
 }
+
