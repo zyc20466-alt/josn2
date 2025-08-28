@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "version": "1.1",
+    "version": "1.2",
     "created_by": "user",
     "description": "美式新闻替换/风格示例库（AI 可读）。用于在不改变事实或语气强度的前提下，把原文词句替换为更符合美式新闻表达的词句。"
   },
@@ -99,6 +99,44 @@
         "after": "该公司表示，它是根据消费者反馈做出决定的"
       },
       "notes": "作为高质量示例保留，AI 应学习其表达方式而非替换。"
+    },
+    {
+      "id": "R006",
+      "match_type": "exact",
+      "pattern": "国会中的民主党高层公开谴责这一举动",
+      "replacement": "国会中的民主党高层立即公开谴责这一举动",
+      "rationale": "增加“立即”，使表达更加符合美式新闻中对时间反应敏感的写作风格，同时不改变事实强度。",
+      "change_type": "phrase_substitution",
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "count_as_deletion": false,
+      "allowed_contexts": ["any"],
+      "forbidden_contexts": [],
+      "priority": 85,
+      "examples": {
+        "before": "国会中的民主党高层公开谴责这一举动",
+        "after": "国会中的民主党高层立即公开谴责这一举动"
+      },
+      "notes": "适合所有与政治表态相关的语境。"
+    },
+    {
+      "id": "R007",
+      "match_type": "exact",
+      "pattern": "对经济的支持率和外交政策的支持率保持相对稳定",
+      "replacement": "他对经济的支持率和外交政策的支持率保持相对稳定",
+      "rationale": "补充主语“他”，避免句子缺乏明确指代，提高可读性，符合美式新闻中对主体清晰化的要求。",
+      "change_type": "grammar_fix",
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "count_as_deletion": false,
+      "allowed_contexts": ["any"],
+      "forbidden_contexts": [],
+      "priority": 85,
+      "examples": {
+        "before": "对经济的支持率和外交政策的支持率保持相对稳定",
+        "after": "他对经济的支持率和外交政策的支持率保持相对稳定"
+      },
+      "notes": "该修改确保句子主语明确，避免歧义。"
     }
   ],
   "usage_guidelines": {
