@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "version": "1.2",
+    "version": "1.4",
     "created_by": "user",
     "description": "美式新闻替换/风格示例库（AI 可读）。用于在不改变事实或语气强度的前提下，把原文词句替换为更符合美式新闻表达的词句。"
   },
@@ -137,6 +137,39 @@
         "after": "他对经济的支持率和外交政策的支持率保持相对稳定"
       },
       "notes": "该修改确保句子主语明确，避免歧义。"
+    },
+    {
+      "id": "R008",
+      "match_type": "exact",
+      "pattern": "包括枪手在内 三人死亡 数十人受伤",
+      "replacement": "造成包括枪手在内的三人死亡数十人受伤",
+      "rationale": "将片段式并列改为带谓语的结果结构（引入“造成”），并在“包括枪手在内”后补“的”，修复无谓语/结构散裂问题，提升连贯性与可读性。",
+      "change_type": "grammar_fix",
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "count_as_deletion": false,
+      "allowed_contexts": ["any"],
+      "forbidden_contexts": [],
+      "priority": 85,
+      "examples": {
+        "before": "包括枪手在内 三人死亡 数十人受伤",
+        "after": "造成包括枪手在内的三人死亡数十人受伤"
+      },
+      "notes": "保持原文信息完整；实务写作中常在“死亡”与“数十人受伤”之间加入逗号或“并”，本规则不改动该处。"
+    },
+    {
+      "id": "R009",
+      "match_type": "marker",
+      "pattern": "[123]",
+      "replacement": "[123]",
+      "rationale": "编辑占位符：选中 [123]（包括方括号）后直接粘贴要追加的内容。此条为占位符，不参与替换逻辑。",
+      "change_type": "marker",
+      "priority": 0,
+      "examples": {
+        "before": "[123]",
+        "after": "[123]"
+      },
+      "notes": "只作为编辑占位符使用；请在编辑完成后删除或替换该条。"
     }
   ],
   "usage_guidelines": {
