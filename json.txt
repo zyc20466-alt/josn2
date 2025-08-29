@@ -154,21 +154,27 @@
         "after": "特朗普成为美国历史上宣誓就职时年龄最大的总统。"
       }
     },
-    {
-      "id": "R010",
-      "match_type": "exact",
-      "pattern": "美国最近24小时的新闻",
-      "replacement": "以下是美国过去24小时的主要新闻",
-      "rationale": "增强新闻导语的正式感，避免生硬直译。",
-      "change_type": "clarity_rewrite",
-      "priority": 2,
-      "preserve_factuality": true,
-      "preserve_certainty": true,
-      "examples": {
-        "before": "美国最近24小时的新闻。",
-        "after": "以下是美国过去24小时的主要新闻。"
-      }
-    },
+ {
+  "id": "R010",
+  "match_type": "exact",
+  "pattern": "一分钟内美国最后24小时的新闻",
+  "replacement": "美国24小时新闻，一分钟前",
+  "rationale": "调整语序，使新闻播报更符合美国英语逻辑。把时间状语‘一分钟内’改成‘一分钟前’，让信息点更符合新闻开头的时间提示习惯。",
+  "change_type": "clarity_rewrite",
+  "preserve_factuality": true,
+  "preserve_certainty": true,
+  "count_as_deletion": false,
+  "allowed_contexts": [
+    "any"
+  ],
+  "forbidden_contexts": [],
+  "priority": 90,
+  "examples": {
+    "before": "一分钟内美国最后24小时的新闻",
+    "after": "美国24小时新闻，一分钟前"
+  },
+  "notes": "仅在完整短语匹配时应用；替换后句式更自然，更贴合新闻短视频播报的时序逻辑。"
+},
     {
       "id": "R011",
       "match_type": "exact",
@@ -214,3 +220,4 @@
     "note": "所有新增规则必须遵守preserve_factuality和preserve_certainty要求。"
   }
 }
+
