@@ -1,20 +1,20 @@
 {
   "metadata": {
-    "version": "1.4",
+    "version": "1.5",
     "created_by": "user",
-    "description": "美式新闻替换/风格示例库（AI 可读）。用于在不改变事实或语气强度的前提下，把原文词句替换为更符合美式新闻表达的词句。",
-    "template_note": "说明：本文件仅为格式模板。文中所有示例仅用于演示结构与格式，严禁在生成的新闻稿或其他公开内容中直接引用示例文本。",
-    "enforcement_policy": {
-      "purpose": "强制性限制：禁止在任何自动生成的对外文本中直接引用或逐字重现本规则文件中的示例文本（包括 rules[].examples.before 与 rules[].examples.after）。",
-      "prohibit_direct_quote": true,
-      "require_paraphrase_if_use": true,
-      "paraphrase_minimum_change_ratio": 0.4,
-      "exact_substring_block_length": 10,
-      "similarity_block_threshold": 0.85,
-      "action_on_violation": "reject_or_flag_for_human_review",
-      "audit_logging_required": true,
-      "human_approval_required_if_flagged": true,
-      "note_to_engineers": "部署时请把本条作为机读约束：在模型返回之前运行示例检测器；若检测器判定为违规（包含示例的长片段或高相似度），必须拒绝输出或替换为经人工审批/重写的内容。"
+    "purpose": "美式新闻替换/风格示例库（AI可读）",
+    "enforcement_policy": "examples仅作说明，AI不可引用为最终输出。最终替换必须基于pattern与replacement字段。",
+    "examples_learning_restriction": {
+      "statement": "强制性：本示例库中的 examples 字段仅用于模型的深度阅读与学习，严禁在任何对外正文或生成输出中直接引用或原样复制示例文本（包括 examples.before 与 examples.after）。",
+      "allowed_direct_use_condition": "仅当用户提供的完整文案（用户输入的全文）与某条规则的 replacement 字段 **完全逐字符相同** 时，系统才被允许将该 replacement 直接用作输出（即照搬示例库中的该条 replacement）。",
+      "matching_requirements": {
+        "match_type": "exact_string_equality",
+        "case_sensitive": true,
+        "whitespace_sensitive": true
+      },
+      "examples_handling": "若用户文本与 replacement 不完全相同，则必须以示例为学习参考进行改写或生成，禁止逐字复制；若系统基于示例进行输出，必须保证与示例的相似度低于 similarity_block_threshold（或满足 paraphrase_minimum_change_ratio）并通过人工审批。",
+      "action_on_violation": "若检测到输出包含示例的连续原文片段或与示例高相似度且不满足允许条件，必须阻止输出并标记为需人工复核；同时记录违规示例 ID 与匹配证据。",
+      "note_to_engineers": "务必在生成管线的后处理环节实现该约束：先检测模型输出与 rules[].examples.before/after 的精确匹配与相似度；仅在用户输入与某 replacement 完全相同的情况下允许直接输出该 replacement；否则拒绝逐字输出并按 paraphrase/人工审批流程处理。"
     }
   },
   "rules": [
@@ -23,289 +23,194 @@
       "match_type": "exact",
       "pattern": "丽莎·库克誓言抵制",
       "replacement": "丽莎·库克发誓要抵抗",
-      "rationale": "将中文措辞调整为更口语化、接近美式新闻语气的表达，保留原意与语气强度。",
+      "rationale": "调整为更符合美式新闻报道习惯的口语化表达，保留原有的语气强度。",
       "change_type": "phrase_substitution",
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 100,
+      "priority": 10,
       "examples": {
-        "before": "丽莎·库克誓言抵制总统的决定",
-        "after": "丽莎·库克发誓要抵抗总统的决定"
+        "before": "丽莎·库克誓言抵制特朗普的解雇决定。",
+        "after": "丽莎·库克发誓要抵抗特朗普的解雇决定。"
       },
-      "notes": "仅在完整短语匹配时应用；不得改为其他改变事实确定性的词。"
+      "notes": "语义不变，替换表达方式。"
     },
     {
       "id": "R002",
-      "match_type": "contains",
-      "pattern": "美国正寻求将一名备受关注的被拘留者驱逐到乌干达",
-      "replacement": "美国设法将一名备受关注的被拘留者驱逐到乌干达",
-      "rationale": "‘设法’更符合美式新闻表述语气，语义与强度保持一致。",
-      "change_type": "phrase_substitution",
+      "match_type": "exact",
+      "pattern": "她表示，根据法律，她没有被免职的理由",
+      "replacement": "她表示，根据法律，她没有理由被免职",
+      "rationale": "语序调整，提升美式口语流畅度，避免生硬直译。",
+      "change_type": "clarity_rewrite",
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 90,
+      "priority": 9,
       "examples": {
-        "before": "消息称，美国正寻求将一名备受关注的被拘留者驱逐到乌干达。",
-        "after": "消息称，美国设法将一名备受关注的被拘留者驱逐到乌干达。"
-      },
-      "notes": "适用于句中包含该片段的场景；注意不要改变时态或确定性词。"
+        "before": "她表示，根据法律，她没有被免职的理由。",
+        "after": "她表示，根据法律，她没有理由被免职。"
+      }
     },
     {
       "id": "R003",
       "match_type": "exact",
-      "pattern": "关于国民警卫队在芝加哥的潜在部署冲突加剧",
-      "replacement": "关于国民警卫队在芝加哥的潜在部署冲突加剧",
-      "rationale": "原句表述已足够清晰、符合美式新闻呈现，不做修改。",
-      "change_type": "no_change",
+      "pattern": "特朗普总统和伊利诺伊州州长JB普利兹克之间的争端不断升级",
+      "replacement": "特朗普总统和伊利诺伊州州长JB普利兹克的争端持续升级",
+      "rationale": "调整句式，避免中文直译痕迹，更贴近美式新闻表达。",
+      "change_type": "clarity_rewrite",
+      "priority": 8,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 80,
       "examples": {
-        "before": "关于国民警卫队在芝加哥的潜在部署冲突加剧",
-        "after": "关于国民警卫队在芝加哥的潜在部署冲突加剧"
-      },
-      "notes": "表示在该情形下保持原句不动是合适的策略。"
+        "before": "特朗普总统和伊利诺伊州州长JB普利兹克之间的争端不断升级。",
+        "after": "特朗普总统和伊利诺伊州州长JB普利兹克的争端持续升级。"
+      }
     },
     {
       "id": "R004",
       "match_type": "exact",
-      "pattern": "这一事件引起了执法部门的大规模反应",
-      "replacement": "这一事件引起了执法部门的大规模反应",
-      "rationale": "原句表述十分完美，建议 AI 保持原文不变并作为学习示例。",
-      "change_type": "no_change",
+      "pattern": "国会中的民主党高层谴责了这一行动",
+      "replacement": "国会中的民主党高层公开谴责这一行动",
+      "rationale": "加入“公开”一词，更符合美式新闻报道强调动作公开性的风格。",
+      "change_type": "phrase_substitution",
+      "priority": 7,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 80,
       "examples": {
-        "before": "这一事件引起了执法部门的大规模反应",
-        "after": "这一事件引起了执法部门的大规模反应"
-      },
-      "notes": "该规则表示在相同或相似语境下无需修改，AI 应将其作为高质量示例学习。"
+        "before": "国会中的民主党高层谴责了这一行动。",
+        "after": "国会中的民主党高层公开谴责这一行动。"
+      }
     },
     {
       "id": "R005",
       "match_type": "exact",
-      "pattern": "该公司表示，它是根据消费者反馈做出决定的",
-      "replacement": "该公司表示，它是根据消费者反馈做出决定的",
-      "rationale": "此句符合美国新闻常用表达，建议 AI 在遇到相似句型时模仿其格式与措辞方式。",
-      "change_type": "no_change",
+      "pattern": "一分钟前，特朗普宣布",
+      "replacement": "一分钟前，唐纳德·特朗普总统宣布",
+      "rationale": "补全全名与职务，符合美式新闻首提人物全称的规范。",
+      "change_type": "clarity_rewrite",
+      "priority": 6,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 80,
       "examples": {
-        "before": "该公司表示，它是根据消费者反馈做出决定的",
-        "after": "该公司表示，它是根据消费者反馈做出决定的"
-      },
-      "notes": "作为高质量示例保留，AI 应学习其表达方式而非替换。"
+        "before": "一分钟前，特朗普宣布他打算解雇美联储理事。",
+        "after": "一分钟前，唐纳德·特朗普总统宣布他打算解雇美联储理事。"
+      }
     },
     {
       "id": "R006",
       "match_type": "exact",
       "pattern": "国会中的民主党高层公开谴责这一举动",
       "replacement": "国会中的民主党高层立即公开谴责这一举动",
-      "rationale": "增加“立即”，使表达更加符合美式新闻中对时间反应敏感的写作风格，同时不改变事实强度。",
+      "rationale": "补入“立即”，突出时效性，更贴近美式新闻报道习惯。",
       "change_type": "phrase_substitution",
+      "priority": 5,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 85,
       "examples": {
-        "before": "国会中的民主党高层公开谴责这一举动",
-        "after": "国会中的民主党高层立即公开谴责这一举动"
-      },
-      "notes": "适合所有与政治表态相关的语境。"
+        "before": "国会中的民主党高层公开谴责这一举动。",
+        "after": "国会中的民主党高层立即公开谴责这一举动。"
+      }
     },
     {
       "id": "R007",
       "match_type": "exact",
-      "pattern": "对经济的支持率和外交政策的支持率保持相对稳定",
-      "replacement": "他对经济的支持率和外交政策的支持率保持相对稳定",
-      "rationale": "补充主语“他”，避免句子缺乏明确指代，提高可读性，符合美式新闻中对主体清晰化的要求。",
-      "change_type": "grammar_fix",
+      "pattern": "她说按法律没有被免职理由",
+      "replacement": "她表示，按照法律规定，她没有被免职的理由",
+      "rationale": "原句略显口语化，改为更符合正式新闻稿的用语。",
+      "change_type": "clarity_rewrite",
+      "priority": 4,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 85,
       "examples": {
-        "before": "对经济的支持率和外交政策的支持率保持相对稳定",
-        "after": "他对经济的支持率和外交政策的支持率保持相对稳定"
-      },
-      "notes": "该修改确保句子主语明确，避免歧义。"
+        "before": "她说按法律没有被免职理由。",
+        "after": "她表示，按照法律规定，她没有被免职的理由。"
+      }
     },
     {
       "id": "R008",
       "match_type": "exact",
       "pattern": "包括枪手在内 三人死亡 数十人受伤",
       "replacement": "造成包括枪手在内的三人死亡数十人受伤",
-      "rationale": "将片段式并列改为带谓语的结果结构（引入“造成”），并在“包括枪手在内”后补“的”，修复无谓语/结构散裂问题，提升连贯性与可读性。",
+      "rationale": "补充谓语动词“造成”，修复片段式句子，使其更符合美式新闻语法。",
       "change_type": "grammar_fix",
+      "priority": 8,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 85,
       "examples": {
-        "before": "包括枪手在内 三人死亡 数十人受伤",
-        "after": "造成包括枪手在内的三人死亡数十人受伤"
-      },
-      "notes": "保持原文信息完整；实务写作中常在“死亡”与“数十人受伤”之间加入逗号或“并”，本规则不改动该处。"
+        "before": "包括枪手在内 三人死亡 数十人受伤。",
+        "after": "造成包括枪手在内的三人死亡数十人受伤。"
+      }
     },
     {
       "id": "R009",
-      "match_type": "exact",
-      "pattern": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
-      "replacement": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑",
-      "rationale": "在原句基础上加入“迫切”，强调寻求庇护的紧迫性，使新闻叙述更具时效感与人物动机明确性。该修改不改变事实或确定性，仅增强语气与可读性。",
+      "match_type": "contains",
+      "pattern": "特朗普是美国历史上宣誓就职时",
+      "replacement": "特朗普成为美国历史上宣誓就职时",
+      "rationale": "替换动词“是”为“成为”，避免中式直译，提升美式叙事感。",
       "change_type": "phrase_substitution",
+      "priority": 3,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 85,
       "examples": {
-        "before": "他寻求庇护 称若被遣返乌干达 将面临酷刑",
-        "after": "他迫切寻求庇护 称若被遣返乌干达 将面临酷刑"
-      },
-      "notes": "用于突出当事人对庇护的紧迫性；仅在完整短语匹配时应用。"
+        "before": "特朗普是美国历史上宣誓就职时年龄最大的总统。",
+        "after": "特朗普成为美国历史上宣誓就职时年龄最大的总统。"
+      }
     },
     {
       "id": "R010",
       "match_type": "exact",
-      "pattern": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
-      "replacement": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联",
-      "rationale": "修复断句与指代不明：通过加入代词“他”并重组从句，明确被指控的主体及其被指控的行为和地点，提升句子连贯性与可读性，同时不改变事实或确定性。",
+      "pattern": "美国最近24小时的新闻",
+      "replacement": "以下是美国过去24小时的主要新闻",
+      "rationale": "增强新闻导语的正式感，避免生硬直译。",
       "change_type": "clarity_rewrite",
+      "priority": 2,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 85,
       "examples": {
-        "before": "丹麦召见一名美国高级外交官，与指控有关 有人被指与特朗普政府有关联，在格陵兰从事秘密影响行动",
-        "after": "丹麦召见了一名美国高级外交官，他被指控与特朗普政府在格陵兰的秘密行动有关联"
-      },
-      "notes": "仅在完整短语匹配时应用；保持事实不变，着重改善句子连贯与指代清晰。"
+        "before": "美国最近24小时的新闻。",
+        "after": "以下是美国过去24小时的主要新闻。"
+      }
     },
     {
       "id": "R011",
       "match_type": "exact",
       "pattern": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
       "replacement": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力",
-      "rationale": "通过加入主体“群众”明确担忧的来源，并将第二分句聚焦为“政府在该地区的战略影响力”，使信息更具体、指向更清晰，有利于提升可读性与新闻报道的明确性。注意：修改后的第二分句缺少显式的‘关切/担忧’词语，可能造成并列平衡性略弱（仅为提醒，内容不做改动）。",
+      "rationale": "通过加入主体“群众”明确担忧的来源，并将第二分句聚焦政府影响力，符合美式新闻强调主体的风格。",
       "change_type": "clarity_rewrite",
+      "priority": 7,
       "preserve_factuality": true,
       "preserve_certainty": true,
-      "count_as_deletion": false,
-      "allowed_contexts": [
-        "any"
-      ],
-      "forbidden_contexts": [],
-      "priority": 85,
       "examples": {
-        "before": "此事引发对主权的担忧，以及对该地区战略影响力的关切",
-        "after": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力"
-      },
-      "notes": "仅在完整短语匹配时应用；保留原意并增强指向性；若需更严格的并列平衡，可在第二分句补回‘关切/担忧’等词，但不自行改动你的中文。"
-    }，
+        "before": "此事引发对主权的担忧，以及对该地区战略影响力的关切。",
+        "after": "此事引发了群众对主权的担忧，以及政府在该地区的战略影响力。"
+      }
+    },
     {
-   "id": "R012",
-   "match_type": "exact",
-   "pattern": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
-   "replacement": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。",
-   "rationale": "通过增加场景限定词“在办公室”提升语义明确性；去掉多余的“的人”与重复表述，简化句子，使其更简洁自然且符合新闻体表达习惯，同时不改变事实或确定性。",
-   "change_type": "clarity_rewrite",
-   "preserve_factuality": true,
-   "preserve_certainty": true,
-   "count_as_deletion": false,
-   "allowed_contexts": [
-    "any"
-   ],
-   "forbidden_contexts": [],
-  "priority": 85,
-  "examples": {
-     "before": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
-    "after": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。"
-  },
-  "notes": "仅在完整短语匹配时应用；保持原意不变，着重提高场景明确性和表达精炼度。"
-},
+      "id": "R012",
+      "match_type": "exact",
+      "pattern": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
+      "replacement": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。",
+      "rationale": "通过增加场景限定词“在办公室”提升语义明确性；去掉多余的“的人”和重复表述，简化句子，使其更简洁自然且符合新闻体表达习惯，同时不改变事实或确定性。",
+      "change_type": "clarity_rewrite",
+      "priority": 5,
+      "preserve_factuality": true,
+      "preserve_certainty": true,
+      "examples": {
+        "before": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
+        "after": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。"
+      },
+      "notes": "仅在完整短语匹配时应用；保持原意不变，着重提高场景明确性和表达精炼度."
+    }
   ],
   "usage_guidelines": {
-    "apply_order": [
-      "exact",
-      "regex",
-      "contains"
-    ],
-    "conflict_resolution": "当多条规则匹配同一区域时，优先使用 priority 值更高的规则；若 priority 相同，优先 exact > regex > contains。",
-    "validation_checks_before_apply": [
-      "替换后不得改变事实性内容（命名实体、数字、时序、结论性陈述）",
-      "替换后不得提升或降低句子在事实确定性上的语气（例如 '或许' <-> '确实' 禁止）",
-      "替换不得隐性删除信息；若替换会导致信息丢失，禁止执行，或将替换标记为需人工审核",
-      "替换不得触及法律/医学/高风险判定类措辞的确定性（如将 '指控' 改为 '证实'）"
-    ],
-    "deletion_counting_rule": "仅当替换伴随文字删减时，删减字符数计入 1%—5% 删减限额；纯替换（等长或等信息量）不计入删减比例。",
-    "batch_apply_rule": "在同一段落内可同时应用多条替换，但应用前必须先模拟并检查最终句子是否仍满足“保留原意与事实确定性”规则。",
-    "logging_requirement": "模型应在内部维护一份变更记录：原句 -> 规则ID -> 替换后句。该记录仅用于合规校验与删减计数，最终输出不得包含该记录。",
-    "example_usage_restrictions": {
-      "statement": "强制性：示例文本（rules[].examples.before / after）不得被直接用作对外生成输出或在新闻稿中原样引用。",
-      "checks_required": [
-        "禁止包含任何示例的连续原文片段长度 >= exact_substring_block_length",
-        "禁止与任一示例达到 similarity_block_threshold（基于编辑距离/相似度测量）",
-        "若必须以示例为基础输出，必须按 paraphrase_minimum_change_ratio 要求进行重写并通过人工审批"
-      ],
-      "recommended_action_on_detection": "阻止输出并标记为需人工审核；记录匹配的示例 ID 与匹配分数"
-    }
+    "application_order": "按priority字段数值从高到低顺序应用规则",
+    "conflict_resolution": "若多条规则同时匹配，选择priority数值更高的；若priority相同，则按rules列表顺序应用。",
+    "factuality_check": "所有替换需保持事实不变，不得改动语气确定性。",
+    "log_requirement": "替换时应记录所用规则id，供人工追踪。",
+    "examples_policy": "示例仅用于说明效果，AI不可直接引用示例文本。",
+    "examples_deep_learning_only_clause": "强制性：rules 中的 examples 字段仅作为模型深度阅读/学习的案例材料，严禁在任何对外正文或自动生成的最终输出中逐字或大段复制示例文本；除非用户明确提供的文案与某条规则的 replacement 字段完全一致（逐字符匹配），系统方可直接使用该 replacement 作为输出。"
   },
   "extension_instructions": {
-    "how_to_add": "新增条目时必须提供：id、match_type、pattern、replacement、rationale、change_type、preserve_factuality、preserve_certainty、priority、examples。",
-    "recommended_match_types": [
-      "exact",
-      "contains",
-      "regex"
-    ],
-    "naming_convention": "规则ID 使用 R + 三位数字，例如 R004、R005"
+    "how_to_add_rule": "新增规则时需包含id、match_type、pattern、replacement、rationale、change_type、priority等字段，格式需与现有规则保持一致。",
+    "note": "所有新增规则必须遵守preserve_factuality和preserve_certainty要求。"
   }
 }
-
-
