@@ -249,28 +249,27 @@
       },
       "notes": "仅在完整短语匹配时应用；保留原意并增强指向性；若需更严格的并列平衡，可在第二分句补回‘关切/担忧’等词，但不自行改动你的中文。"
     }，
-{
-  "id": "R012",
-  "match_type": "exact",
-  "pattern": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
-  "replacement": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。",
-  "rationale": "通过增加场景限定词“在办公室”提升语义明确性；去掉多余的“的人”与重复表述，简化句子，使其更简洁自然且符合新闻体表达习惯，同时不改变事实或确定性。",
-  "change_type": "clarity_rewrite",
-  "preserve_factuality": true,
-  "preserve_certainty": true,
-  "count_as_deletion": false,
-  "allowed_contexts": [
+    {
+   "id": "R012",
+   "match_type": "exact",
+   "pattern": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
+   "replacement": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。",
+   "rationale": "通过增加场景限定词“在办公室”提升语义明确性；去掉多余的“的人”与重复表述，简化句子，使其更简洁自然且符合新闻体表达习惯，同时不改变事实或确定性。",
+   "change_type": "clarity_rewrite",
+   "preserve_factuality": true,
+   "preserve_certainty": true,
+   "count_as_deletion": false,
+   "allowed_contexts": [
     "any"
-  ],
-  "forbidden_contexts": [],
+   ],
+   "forbidden_contexts": [],
   "priority": 85,
   "examples": {
-    "before": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
+     "before": "每晚，他都是最后一个还在打电话处理事务的人。清晨，他又是最早醒来、最早开始打电话安排工作的人。",
     "after": "每晚他都是最后一个在办公室打电话处理事务的。 清晨他又是最早醒来、 最早开始安排工作的。"
   },
   "notes": "仅在完整短语匹配时应用；保持原意不变，着重提高场景明确性和表达精炼度。"
 },
-
   ],
   "usage_guidelines": {
     "apply_order": [
@@ -308,4 +307,5 @@
     "naming_convention": "规则ID 使用 R + 三位数字，例如 R004、R005"
   }
 }
+
 
