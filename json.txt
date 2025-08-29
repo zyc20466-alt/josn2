@@ -154,26 +154,27 @@
         "after": "特朗普成为美国历史上宣誓就职时年龄最大的总统。"
       }
     },
- {
+{
   "id": "R010",
   "match_type": "exact",
   "pattern": "一分钟内美国最后24小时的新闻",
-  "replacement": "美国24小时新闻，一分钟前",
-  "rationale": "调整语序，使新闻播报更符合美国英语逻辑。把时间状语‘一分钟内’改成‘一分钟前’，让信息点更符合新闻开头的时间提示习惯。",
+  "replacement": "每日新闻速报，就在刚刚",
+  "rationale": "将直译式的时间表达改为更贴近美式新闻标题/口播的习惯用语‘每日新闻速报，就在刚刚’，突出即时性与口语化风格。",
   "change_type": "clarity_rewrite",
   "preserve_factuality": true,
   "preserve_certainty": true,
   "count_as_deletion": false,
   "allowed_contexts": [
-    "any"
+    "headline",
+    "broadcast_intro"
   ],
   "forbidden_contexts": [],
   "priority": 90,
   "examples": {
     "before": "一分钟内美国最后24小时的新闻",
-    "after": "美国24小时新闻，一分钟前"
+    "after": "每日新闻速报，就在刚刚"
   },
-  "notes": "仅在完整短语匹配时应用；替换后句式更自然，更贴合新闻短视频播报的时序逻辑。"
+  "notes": "仅在完整短语匹配时应用；替换后更自然，符合美式新闻短视频的标题和开场习惯。"
 },
     {
       "id": "R011",
@@ -220,4 +221,5 @@
     "note": "所有新增规则必须遵守preserve_factuality和preserve_certainty要求。"
   }
 }
+
 
